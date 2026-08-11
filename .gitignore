@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Hardhat
+cache/
+artifacts/
+typechain-types/
+coverage/
+coverage.json
+
+# Env
+.env
+.env.local
+
+# Misc
+.DS_Store
+*.log
+dist/
