@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VeriFi Loan Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="min-h-screen bg-app font-sans text-ink antialiased">
+    <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
+      <header class="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-leaf-600">VeriFi</p>
+          <h1 class="mt-1 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            Loan demo
+          </h1>
+          <p class="mt-2 max-w-xl text-sm text-slate-600">
+            Simple borrower / admin flow for the Solidity hiring contract.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <span
+            id="modeBadge"
+            class="inline-flex items-center rounded-md bg-leaf-100 px-2.5 py-1 text-xs font-semibold text-leaf-700"
+          >
+            simulation
+          </span>
+          <label class="flex flex-col gap-1 text-xs font-medium text-slate-500">
+            Role
+            <select
+              id="role"
+              class="min-w-[9rem] rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-ink shadow-sm outline-none focus:border-leaf-600 focus:ring-2 focus:ring-leaf-100"
+            >
+              <option value="borrower">Borrower</option>
+              <option value="admin">Admin</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <main class="space-y-5">
+        <section
+          id="borrowerPanel"
+          class="rounded-2xl border border-slate-200/80 bg-white/90 p-5 shadow-panel backdrop-blur sm:p-6"
+        >
+          <h2 class="font-display text-xl font-semibold text-ink">Apply for a loan</h2>
+          <form id="createForm" class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:items-end">
+            <label class="grid gap-1.5 text-xs font-medium text-slate-500">
+              Amount (cents)
+              <input
+                name="amountCents"
+                type="number"
+                value="100000"
+                min="1"
+                required
+                class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-ink outline-none focus:border-leaf-600 focus:ring-2 focus:ring-leaf-100"
+              />
+            </label>
+            <label class="grid gap-1.5 text-xs font-medium text-slate-500">
+              Term (months)
+              <input
+                name="termMonths"
+                type="number"
+                value="12"
+                min="1"
+                required
+                class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-ink outline-none focus:border-leaf-600 focus:ring-2 focus:ring-leaf-100"
+              />
+            </label>
+            <label class="grid gap-1.5 text-xs font-medium text-slate-500">
+              Rate (bps)
+              <input
+                name="interestRateBps"
+                type="number"
+                value="1299"
+                min="0"
+                required
+                class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-ink outline-none focus:border-leaf-600 focus:ring-2 focus:ring-leaf-100"
+              />
+            </label>
+            <button
+              type="submit"
+              class="rounded-lg bg-leaf-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-leaf-700"
+            >
+              Create loan
+            </button>
+          </form>
+        </section>
+
+        <section class="rounded-2xl border border-slate-200/80 bg-white/90 p-5 shadow-panel backdrop-blur sm:p-6">
+          <div class="mb-4 flex items-center justify-between gap-3">
+            <h2 class="font-display text-xl font-semibold text-ink">Loans</h2>
+            <button
+              type="button"
+              id="refreshBtn"
+              class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-ink transition hover:bg-mist"
+            >
+              Refresh
+            </button>
+          </div>
+          <div id="loanList" class="space-y-3 text-sm text-slate-600">Loading…</div>
+        </section>
+      </main>
+    </div>
+
+    <div class="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4">
+      <p
+        id="toast"
+        hidden
+        class="pointer-events-auto max-w-md rounded-xl bg-ink px-4 py-3 text-sm font-medium text-white shadow-lg"
+      ></p>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
