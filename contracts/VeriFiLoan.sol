@@ -145,10 +145,26 @@ contract VeriFiLoan {
 
     /// @notice Records a repayment against a disbursed loan. See README "Your task".
     function recordPayment(uint256 loanId, uint256 amountCents) external {
-        // TODO: candidate implements
-        loanId;
-        amountCents;
-        revert("TODO");
+        Loan storage ln = _loans[loanId];
+        if (ln.borrower == address(0)) revert LoanNotFound();
+        if (!_isPlatform(msg.sender) && msg.sender != ln.borrower) revert Unauthorized();
+        if (ln.status != STATUS_DISBURSED) revert InvalidStatusTransition();
+        if (amountCents == 0 || amountCents > _remaining[loanId]) revert InvalidAmount();
+
+        _remaining[loanId] -= amountCents;
+        if (_remaining[loanId] == 0) {
+            _transition(loanId, STATUS_DISBURSED, STATUS_REPAID);
+        }
+
+        payments.push(
+            Payment({
+                loanId: loanId,
+                payer: msg.sender,
+                amountCents: amountCents,
+                remainingCents: _remaining[loanId]
+            })
+        );
+        emit PaymentRecorded(loanId, msg.sender, amountCents, _remaining[loanId]);
     }
 
     /// @notice Outstanding balance in cents.
